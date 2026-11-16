@@ -1,5 +1,5 @@
 name: mihomo-qq
-version: "3.0.0"
+version: "3.0.1"
 slug: mihomo_qq
 description: Route only chosen domains (default QQ Music) through a Clash/mihomo subscription node. One static route, no auto-route, guard + dead-man.
 url: https://github.com/bgou/ha-shadowrocket

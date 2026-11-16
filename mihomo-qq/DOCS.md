@@ -38,4 +38,16 @@
 The add-on needs `host_network`, `NET_ADMIN` and `/dev/net/tun`. With `manage_dns`, it also needs `hassio_role: manager` to change DNS plugin settings. These permissions lower the add-on's security rating in the HA UI. If you'd rather not grant them, set `manage_dns: false` and add `dns://172.30.32.1` yourself with `ha dns options --servers dns://172.30.32.1`.
 
 ## Manual rollback
-Stop the add-on. If HA DNS still looks wrong, run `ha dns reset`, or run `ha dns options --servers ""` followed by `ha dns restart`.
+Stop the add-on. If HA DNS still looks wrong, reset DNS options to the defaults with `ha dns reset`.
+
+`ha dns options --servers ""` reports success but does not clear the server list on HA OS 18.4 / Supervisor (verified 2026-11-15). Do not use it to roll back.
+
+From the SSH or Terminal add-on, clear the server list and restart DNS:
+
+```
+curl -sX POST -H "Authorization: Bearer $SUPERVISOR_TOKEN" -H 'Content-Type: application/json' -d '{"servers":[]}' http://supervisor/dns/options && ha dns restart
+```
+
+`ha dns restart` can fail once with "Can't restart CoreDNS plugin" right after an options change. Run it again; the second attempt works.
+
+`ha apps options` has no `--boot` or `--watchdog` flags. Set boot and watchdog on the add-on's page in the UI.
