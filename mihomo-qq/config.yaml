@@ -1,0 +1,44 @@
+name: mihomo-qq
+version: "3.0.0"
+slug: mihomo_qq
+description: Route only chosen domains (default QQ Music) through a Clash/mihomo subscription node. One static route, no auto-route, guard + dead-man.
+url: https://github.com/bgou/ha-shadowrocket
+arch:
+  - amd64
+  - aarch64
+startup: system
+boot: manual
+init: false
+host_network: true
+hassio_api: true
+hassio_role: manager
+privileged:
+  - NET_ADMIN
+devices:
+  - /dev/net/tun
+options:
+  subscription_url: ""
+  proxy_domains:
+    - qq.com
+    - gtimg.cn
+    - gtimg.com
+    - qpic.cn
+    - idqqimg.com
+    - qlogo.cn
+    - tencentmusic.com
+  preferred_node: ""
+  refresh_hours: 6
+  trial_minutes: 15
+  keep: false
+  manage_dns: true
+schema:
+  subscription_url: password
+  proxy_domains:
+    - str
+  preferred_node: str?
+  refresh_hours: int(0,168)
+  trial_minutes: int(1,240)
+  keep: bool
+  manage_dns: bool
+  dns_listen: str?
+  upstream_dns: str?
